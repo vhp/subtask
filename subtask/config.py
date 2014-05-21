@@ -7,7 +7,6 @@
 #   License:
 import os
 import sys
-import errno
 try:
     import configparser
 except ImportError:
@@ -19,7 +18,8 @@ class Configuration:
     def __init__(self):
         """ Configuration Constructor: Set stuff up """
         self.configfile = '~/.subtask.rc'
-        self.settings = {'database': '~/.subtask/'}
+        self.settings = {'database_dir': '~/.subtask/', 
+                            'subtask_database': 'subtask.db'}
         self.create()
         #self.load_config()
 
@@ -51,7 +51,6 @@ class Configuration:
             Call write_config() to actually write configuration to file object
         """
         config = os.path.expanduser(self.configfile)
-        print(config)
         try:
             user_config_obj = open(config, 'r')
         except (OSError, IOError):

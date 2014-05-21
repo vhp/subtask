@@ -5,12 +5,10 @@
 #   Title: SUBTASK
 #   Description: Todo list manager with subtasks
 #   License:
-import os
-import uuid
 import json
-from datetime import datetime
 from subtask.config import Configuration
 from subtask.task import Task
+from subtask.fileops import write_db, read_db
 
 def jdefault(o):
     return o.__dict__
@@ -18,8 +16,13 @@ def jdefault(o):
 def main(cmd_args):
     """ Configure settings from command line """
     config_settings = Configuration()
+    cmd_args['<text>'] = ' '.join(cmd_args['<text>'])
 
-    tasks = Task("root")
+    json_data = read_db(config_settings)
+    if isinstance(json_data, dict):
+        tasks = Task.load_tasks(json_data)
+    else:
+        tasks = Task("root")
 
 #    tasks.add_task("Task One")
 #    tasks.add_task("Task Two x")
@@ -31,14 +34,19 @@ def main(cmd_args):
 #    print(json.dumps(asta, default=jdefault))
 
     if cmd_args['add']:
-        cmd_args['<text>'] = ' '.join(cmd_args['<text>'])
+        print("add")
         if cmd_args['<filter>']:
-            print("st filter add")
+            found_tasks = tasks.search_by_description(cmd_args['<filter>'])
+            for i in found_tasks:
+                i.add_task(cmd_args['<text>'])
         else:
             tasks.add_task(cmd_args['<text>'])
-       
-    dog = json.dumps(tasks)
-    print(json.loads(dog))
+
+    tasks.print_node('')
+    if len(tasks.children) > 0:
+        write_db(config_settings, json.dumps(tasks.dump_tasks(), sort_keys=False, indent=4))
+
+    #print(json.loads(dog))
 #with open('data.txt', 'w') as outfile:
 #    outfile.write(json.dumps(projects, default=jdefault))
             #json.dumps(new_task, default=jdefault, outfile)
