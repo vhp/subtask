@@ -16,19 +16,19 @@ except ImportError:
 class Configuration:
     """Class handling state of configuration"""
     def __init__(self):
-        """ Configuration Constructor: Set stuff up """
+        """Configuration Constructor: Set stuff up"""
         self.configfile = '~/.subtask.rc'
-        self.settings = {'database_dir': '~/.subtask/', 
-                            'subtask_database': 'subtask.db'}
+        self.settings = {'db.directory': '~/.subtask/', 
+                        'db.database': 'subtask.db'}
         self.create()
-        #self.load_config()
+        self.load_config()
 
     def load_config(self):
         """Read configuration file from system"""
         try:
             with open(os.path.expanduser(self.configfile)) as conf: pass
         except IOError:
-            print("Config {0} does not exist").format(self.configfile)
+            print('Config {0} does not exist'.format(self.configfile))
         else:
             config = configparser.ConfigParser()
             config.read(os.path.expanduser(self.configfile))

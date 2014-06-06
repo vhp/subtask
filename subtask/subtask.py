@@ -10,11 +10,9 @@ from subtask.config import Configuration
 from subtask.task import Task
 from subtask.fileops import write_db, read_db
 
-def jdefault(o):
-    return o.__dict__
 
 def main(cmd_args):
-    """ Configure settings from command line """
+    """Configure settings from command line"""
     config_settings = Configuration()
     cmd_args['<text>'] = ' '.join(cmd_args['<text>'])
 
@@ -34,11 +32,14 @@ def main(cmd_args):
 #    print(json.dumps(asta, default=jdefault))
 
     if cmd_args['add']:
-        print("add")
+        #here we need to check and see if the filter is a valid node.  If so move on.
         if cmd_args['<filter>']:
             found_tasks = tasks.search_by_description(cmd_args['<filter>'])
-            for i in found_tasks:
-                i.add_task(cmd_args['<text>'])
+            if len(found_tasks) > 1:
+                print("Multiple entries found in search, be more specific")
+            else:
+                for i in found_tasks:
+                    i.add_task(cmd_args['<text>'])
         else:
             tasks.add_task(cmd_args['<text>'])
 

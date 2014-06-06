@@ -32,7 +32,7 @@ class Task:
 
     @classmethod
     def load_tasks(cls, json_dict):
-        """recreate task objects"""
+        """Recreate instances of Task"""
         node = cls(json_dict['description'])
         node.uuid = json_dict['uuid']
         node.status = json_dict['status']
@@ -42,22 +42,22 @@ class Task:
         return node
 
     def add_task(self, description):
-        """Add child task object to list"""
+        """Add new child task object to child list"""
         task_obj = Task(description)
         self.children.append(task_obj)
 
     def set_uuid(self):
-        """set uuid of task"""
+        """set uuid of self task"""
         if self.uuid == None:
             self.uuid = str(uuid.uuid1())
 
     def set_status(self):
-        """set task status"""
+        """set task status of self"""
         if self.status == None:
             self.status = 'pending'
 
     def set_timestamp(self):
-        """set creation timestamp of task"""
+        """set creation stamp of task"""
         if self.timestamp == None:
             self.timestamp = str(datetime.now())
 
@@ -68,17 +68,12 @@ class Task:
             for grandchild in self.walk_tree(child):
                 yield grandchild
 
-#Need to make sure that the delta is taken right and returns the right weejks when needed.
     def days_old(self, dates):
-        delta = datetime.strptime(dates, "%Y-%m-%d %H:%M:%S.%f") - datetime.today()
-        print(delta.days)
-        days = ((datetime.strptime(dates, "%Y-%m-%d %H:%M:%S.%f") - datetime.now()).days)
-        if days <= 2:
-            print("yule")
-            return '{0}d'.format(days)
-        elif days >=2:
-            print("here")
-            return '{0}w'.format(days/2)
+        days = (datetime.today() - datetime.strptime(dates, '%Y-%m-%d %H:%M:%S.%f')).days
+        if days <= 7:
+            return '{0}d'.format(round(days, 1))
+        elif days >=7:
+            return '{0}w'.format(round(days/7, 1))
 
     def print_node(self, prefix):
         print('{0}   {1} {2} {3}'.format(self.days_old(self.timestamp), self.status, prefix, self.description))
