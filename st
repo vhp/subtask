@@ -13,6 +13,7 @@ Usage:
     st (<filter>) add <text>...
     st (<filter>) note <text>...
     st (<filter>) done
+    st (<filter>) reopen
     st (<filter>) delete
     st (<filter>) edit
     st (<filter>) revive

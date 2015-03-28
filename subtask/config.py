@@ -5,6 +5,10 @@
 #   Title: SUBTASK
 #   Description: Todo list manager with subtasks
 #   License:
+
+
+#Need to verify the existece of DB and DB path.
+#If they don't exist create them.
 import os
 import sys
 try:
