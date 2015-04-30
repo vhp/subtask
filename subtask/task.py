@@ -4,7 +4,7 @@
 #   Date: 1/2014
 #   Title: SUBTASK
 #   Description: Todo task manager with subtasks
-#   License:
+#   License: Released under "Simplified BSD License" see LICENSE file
 #
 import uuid
 import json
