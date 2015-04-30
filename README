@@ -1,9 +1,11 @@
-st          # list all
-st <task>   # Print just the item and all children
+
+
+st          # list all tasks and their subtasks
+st <task>   # Print just the item and all subtasks
 st <filter> # Seach through all tasks and subtasks for words.
 st <optional-task> add <Task Name>     # Add to the main/default project
-st <task> note <note>
-st <task> delete  # Delete <item>
+st <task> note <note> # Add note to task
+st <task> delete  # Delete <task>
 st <task> edit  #allow user to edit task
 
 
